@@ -1,0 +1,23 @@
+<%- include('../layouts/header.ejs') %>
+
+<h1><%= item ? 'Update Item' : 'Add New Item' %></h1>
+
+<div class="form-container">
+  <form action="<%= item ? `/items/update/${item._id}` : '/items/add' %>" method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required value="<%= item ? item.name : '' %>">
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" name="description" value="<%= item ? item.description : '' %>">
+
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" required value="<%= item ? item.quantity : '' %>">
+
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" required step="0.01" value="<%= item ? item.price : '' %>">
+
+    <button type="submit"><%= item ? 'Update Item' : 'Add Item' %></button>
+  </form>
+</div>
+
+<%- include('../layouts/footer.ejs') %>

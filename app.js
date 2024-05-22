@@ -22,13 +22,16 @@ mongoose
 
     app.use(bodyParser.urlencoded({ extended: true }));
 
+    app.use(express.static(path.join(__dirname, "public")));
+
     app.get("/", (req, res) => {
       res.redirect("/items");
     });
 
     app.get("/items", itemsController.index);
 
-    app.post("/items/add", itemsController.addItem);
+    app.get("/items/add", itemsController.getAddItem);
+    app.post("/items/add", itemsController.postAddItem);
 
     app.get("/items/update/:id", itemsController.getUpdateItem);
     app.post("/items/update/:id", itemsController.postUpdateItem);

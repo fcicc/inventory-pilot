@@ -12,7 +12,11 @@ exports.index = async (req, res) => {
   }
 };
 
-exports.addItem = async (req, res) => {
+exports.getAddItem = (req, res) => {
+  res.render("items/item-form", { item: null });
+};
+
+exports.postAddItem = async (req, res) => {
   const { name, description, quantity, price } = req.body;
 
   // Validation
@@ -46,7 +50,7 @@ exports.getUpdateItem = async (req, res) => {
       return res.status(404).send("Item not found.");
     }
 
-    res.render("items/update", { item });
+    res.render("items/item-form", { item });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error retrieving item.");
@@ -63,7 +67,12 @@ exports.postUpdateItem = async (req, res) => {
   }
 
   try {
-    await Item.findByIdAndUpdate(itemId, { name, description, quantity, price });
+    await Item.findByIdAndUpdate(itemId, {
+      name,
+      description,
+      quantity,
+      price,
+    });
     res.redirect("/items");
   } catch (err) {
     console.error(err);
