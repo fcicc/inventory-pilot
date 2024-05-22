@@ -15,7 +15,7 @@
       <th>Quantity</th>
       <th>Price</th>
       <th>Actions</th>
-      <th>Warnings</th>
+      <th>Stock status</th>
     </tr>
   </thead>
   <tbody>
@@ -35,9 +35,7 @@
         </form>
       </td>
       <td>
-        <% if (item.isLowQuantity()) { %>
-        <span>Low Quantity</span>
-        <% } %>
+        <span><%= item.getStockStatus() %></span>
       </td>
     </tr>
     <% } %>

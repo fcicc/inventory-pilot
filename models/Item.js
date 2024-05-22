@@ -34,8 +34,14 @@ ItemSchema.statics.findItems = function (searchTerm) {
   return this.find();
 };
 
-ItemSchema.methods.isLowQuantity = function () {
-  return this.quantity <= 5;
+ItemSchema.methods.getStockStatus = function () {
+  if (this.quantity === 0) {
+    return "Out of Stock";
+  } else if (this.quantity <= 5) {
+    return "Low Stock";
+  } else {
+    return "In Stock";
+  }
 };
 
 const Item = mongoose.model("Item", ItemSchema);

@@ -31,15 +31,8 @@ describe("Item Model", () => {
     });
 
     it("should return items that match the search term", async () => {
-      // Mock the find method to return an array of items that match the search term
-      jest.spyOn(Item, "find").mockResolvedValue([
-        {
-          name: "Apple",
-          description: "Red apple",
-          quantity: 5,
-          price: 1.5,
-        },
-      ]);
+      // Mock the find method to return an array of items
+      jest.spyOn(Item, "find").mockResolvedValue([testItem]);
 
       // Call the findItems method with a search term
       const items = await Item.findItems("Apple");
@@ -57,22 +50,30 @@ describe("Item Model", () => {
     });
   });
 
-  // Test the `isLowQuantity` method
-  describe("isLowQuantity", () => {
-    it("should return true if the quantity is less than or equal to 5", () => {
-      // Create a new Item instance with a quantity of 5
-      const item = new Item(testItem);
+  // Test the `getStockStatus` method
+  describe("getStockStatus", () => {
+    it("should return 'Out of Stock' for items with quantity 0", () => {
+      // Create a new Item instance with a quantity of 0
+      const item = new Item({ ...testItem, quantity: 0 });
 
-      // Expect the isLowQuantity method to return true
-      expect(item.isLowQuantity()).toBe(true);
+      // Expect the getStockStatus method to return "Out of Stock"
+      expect(item.getStockStatus()).toBe("Out of Stock");
     });
 
-    it("should return false if the quantity is greater than 5", () => {
-      // Create a new Item instance with a quantity of 6
-      const item = new Item({ ...testItem, quantity: 6 });
+    it("should return 'Low Stock' for items with quantity less than or equal to 5", () => {
+      // Create a new Item instance with a quantity of 5
+      const item = new Item({ ...testItem, quantity: 5 });
 
-      // Expect the isLowQuantity method to return false
-      expect(item.isLowQuantity()).toBe(false);
+      // Expect the getStockStatus method to return "Low Stock"
+      expect(item.getStockStatus()).toBe("Low Stock");
+    });
+
+    it("should return 'In Stock' for items with quantity greater than 5", () => {
+      // Create a new Item instance with a quantity of 10
+      const item = new Item({ ...testItem, quantity: 10 });
+
+      // Expect the getStockStatus method to return "In Stock"
+      expect(item.getStockStatus()).toBe("In Stock");
     });
   });
 });
